@@ -57,5 +57,35 @@
             Assert.Equal(StartingHealth - damage * 0.5m, target.Health);
             Assert.True(target.Alive);
         }
+        
+        [Fact]
+        public void MeleeFighter_can_NOT_damage_OUT_OF_RANGE_target()
+        {
+            var attacker = new MeleeFighter();
+            var target = Character.Create();
+            target.Position = new Position(10, 10);
+            target.Level = 10;
+            var damage = 100m;
+
+            Game.Attack(attacker, damage, target);
+
+            Assert.Equal(StartingHealth, target.Health);
+            Assert.True(target.Alive);
+        }
+        
+        [Fact]
+        public void RangeFighter_can_NOT_damage_OUT_OF_RANGE_target()
+        {
+            var attacker = new RangedFighter();
+            var target = Character.Create();
+            target.Position = new Position(100, 100);
+            target.Level = 10;
+            var damage = 100m;
+
+            Game.Attack(attacker, damage, target);
+
+            Assert.Equal(StartingHealth, target.Health);
+            Assert.True(target.Alive);
+        }
     }
 }

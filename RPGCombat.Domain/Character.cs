@@ -1,26 +1,32 @@
 ﻿namespace RPGCombat.Domain
 {
-    public class Character
+    public class Character : IMovable 
     {
         private const decimal MaxHealth = 1000m;
         public decimal Health;
         public int Level;
         public bool Alive;
         public Guid Id;
+        public Position Position { get; set; }
+        public int X => Position.X;
+        public int Y => Position.Y;
+        public virtual int Range { get; set; }
+        
+        public List<string> Factions { get; }
 
-
-        private Character(decimal health, int level, bool alive)
+        public Character()
         {
-            Health = health;
-            Level = level;
-            Alive = alive;
+            Health = MaxHealth;
+            Level = 1;
+            Alive = true;
             Id = Guid.NewGuid();
+            Position = new(0, 0);
+            Factions = new();
         }
-
 
         public static Character Create()
         {
-            return new Character(1000m, 1, true);
+            return new Character();
         }
 
         public void ReceiveDamage(decimal damage)
