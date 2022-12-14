@@ -1,6 +1,6 @@
 ﻿namespace RPGCombat.Domain
 {
-    public class Character : IMovable 
+    public class Character : Enrollable, IMovable
     {
         private const decimal MaxHealth = 1000m;
         public decimal Health;
@@ -12,8 +12,6 @@
         public int Y => Position.Y;
         public virtual int Range { get; set; }
         
-        public List<string> Factions { get; }
-
         public Character()
         {
             Health = MaxHealth;
@@ -41,7 +39,7 @@
             Health -= damage;
         }
 
-        public void Heal(decimal heal)
+        public void ReceiveHeal(decimal heal)
         {
             if (!Alive)
             {

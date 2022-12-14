@@ -36,7 +36,7 @@ public class CharacterTests
         var heal = 100m;
         Game.Attack(healer, heal, wounded);
 
-        wounded.Heal(heal);
+        wounded.ReceiveHeal(heal);
 
         Assert.Equal(StartingHealth, wounded.Health);
         Assert.True(wounded.Alive);
@@ -51,7 +51,7 @@ public class CharacterTests
         var heal = 100m;
         Game.Attack(healer, StartingHealth, wounded);
 
-        wounded.Heal(heal);
+        wounded.ReceiveHeal(heal);
 
         Assert.Equal(0, wounded.Health);
         Assert.False(wounded.Alive);
@@ -65,7 +65,7 @@ public class CharacterTests
         var heal = 200m;
         Game.Attack(healer, heal, wounded);
 
-        wounded.Heal(heal);
+        wounded.ReceiveHeal(heal);
 
         Assert.Equal(StartingHealth, wounded.Health);
         Assert.True(wounded.Alive);

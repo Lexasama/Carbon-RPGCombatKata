@@ -4,10 +4,28 @@
     {
         public static void Attack(Character attacker, decimal damage, Character target)
         {
-            if (attacker.Id != target.Id && InRange(attacker, target))
+            if (attacker.Id != target.Id && InRange(attacker, target) && !AreAllies(attacker, target))
             {
                 target.ReceiveDamage(CalculateDamage(attacker, damage, target));
             }
+        }
+
+        public static void Heal(Character healer, decimal heal, Character wounded)
+        {
+            if (AreAllies(healer, wounded))
+            {
+                wounded.ReceiveHeal(heal);
+            }
+        }
+
+        public static void Heal(Character healer, decimal heal)
+        {
+            healer.ReceiveHeal(heal);
+        }
+
+        private static bool AreAllies(Character attacker, Character target)
+        {
+            return attacker.Factions.Intersect(target.Factions).Any();
         }
 
         private static bool InRange(Character attacker, Character target)
