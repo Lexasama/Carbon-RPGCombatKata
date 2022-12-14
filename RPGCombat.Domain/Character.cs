@@ -6,6 +6,7 @@
         public decimal Health;
         public int Level;
         public bool Alive;
+        public Guid Id;
 
 
         private Character(decimal health, int level, bool alive)
@@ -13,6 +14,7 @@
             Health = health;
             Level = level;
             Alive = alive;
+            Id = Guid.NewGuid();
         }
 
 
@@ -21,12 +23,7 @@
             return new Character(1000m, 1, true);
         }
 
-        public void Attack(decimal damage, Character character)
-        {
-            character.ReceiveDamage(damage);
-        }
-
-        private void ReceiveDamage(decimal damage)
+        public void ReceiveDamage(decimal damage)
         {
             if (damage >= Health)
             {
@@ -38,16 +35,13 @@
             Health -= damage;
         }
 
-        public void Heal(decimal heal, Character character)
+        public void Heal(decimal heal)
         {
-            if (character.Alive)
+            if (!Alive)
             {
-                character.ReceiveHeal(heal);
+                return;
             }
-        }
 
-        private void ReceiveHeal(decimal heal)
-        {
             Health += heal;
             if (Health > MaxHealth)
             {

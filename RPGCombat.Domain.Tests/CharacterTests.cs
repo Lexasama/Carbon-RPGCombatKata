@@ -15,38 +15,28 @@ public class CharacterTests
         Assert.True(sut.Alive);
     }
 
-    [Fact]
-    public void can_deal_damage()
-    {
-        var attacker = Character.Create();
-        var taker = Character.Create();
-        var damage = 100m;
-        attacker.Attack(damage, taker);
-
-        Assert.Equal(StartingHealth - damage, taker.Health);
-        Assert.True(taker.Alive);
-    }
 
     [Fact]
     public void character_dies_when_HEALTH_is_ZERO()
     {
         var attacker = Character.Create();
-        var taker = Character.Create();
-        attacker.Attack(StartingHealth, taker);
+        var target = Character.Create();
+        var game = new Game();
+        Game.Attack(attacker, StartingHealth, target);
 
-        Assert.Equal(0, taker.Health);
-        Assert.False(taker.Alive);
+        Assert.Equal(0, target.Health);
+        Assert.False(target.Alive);
     }
 
     [Fact]
-    public void character_can_Heal_character()
+    public void character_can_Heal_self()
     {
         var healer = Character.Create();
         var wounded = Character.Create();
         var heal = 100m;
-        healer.Attack(heal, wounded);
+        Game.Attack(healer, heal, wounded);
 
-        healer.Heal(heal, wounded);
+        wounded.Heal(heal);
 
         Assert.Equal(StartingHealth, wounded.Health);
         Assert.True(wounded.Alive);
@@ -59,9 +49,9 @@ public class CharacterTests
         var healer = Character.Create();
         var wounded = Character.Create();
         var heal = 100m;
-        healer.Attack(StartingHealth, wounded);
+        Game.Attack(healer, StartingHealth, wounded);
 
-        healer.Heal(heal, wounded);
+        wounded.Heal(heal);
 
         Assert.Equal(0, wounded.Health);
         Assert.False(wounded.Alive);
@@ -73,9 +63,9 @@ public class CharacterTests
         var healer = Character.Create();
         var wounded = Character.Create();
         var heal = 200m;
-        healer.Attack(100, wounded);
+        Game.Attack(healer, heal, wounded);
 
-        healer.Heal(heal, wounded);
+        wounded.Heal(heal);
 
         Assert.Equal(StartingHealth, wounded.Health);
         Assert.True(wounded.Alive);
