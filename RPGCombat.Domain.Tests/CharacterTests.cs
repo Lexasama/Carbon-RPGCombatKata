@@ -1,3 +1,5 @@
+using RPGCombat.Domain.Characters;
+
 namespace RPGCombat.Domain.Tests;
 
 public class CharacterTests

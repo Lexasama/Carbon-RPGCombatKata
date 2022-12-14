@@ -1,4 +1,4 @@
-﻿namespace RPGCombat.Domain
+﻿namespace RPGCombat.Domain.Characters
 {
     public sealed class MeleeFighter : Character
     {

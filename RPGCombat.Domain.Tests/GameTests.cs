@@ -1,4 +1,7 @@
-﻿namespace RPGCombat.Domain.Tests
+﻿using RPGCombat.Domain.Characters;
+using RPGCombat.Domain.Things;
+
+namespace RPGCombat.Domain.Tests
 {
     public class GameTests
     {
@@ -122,6 +125,18 @@
             Game.Heal(allie1, damage, allie2);
 
             Assert.Equal(StartingHealth - damage, allie2.Health);
+        }
+
+        [Fact]
+        public void can_attack_a_tree()
+        {
+            var attacker = new RangedFighter();
+            var damage = 100000m;
+            var tree = new Tree();
+            Game.Attack(attacker, damage, tree);
+
+            Assert.Equal(0, tree.Health);
+            Assert.False(tree.Alive);
         }
     }
 }

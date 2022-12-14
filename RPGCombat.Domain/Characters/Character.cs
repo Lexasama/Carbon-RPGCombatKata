@@ -1,9 +1,9 @@
-﻿namespace RPGCombat.Domain
+﻿namespace RPGCombat.Domain.Characters
 {
-    public class Character : Enrollable, IMovable
+    public class Character : IDamagable, IHealable, IEnrollable, IMovable
     {
         private const decimal MaxHealth = 1000m;
-        public decimal Health;
+        public decimal Health { get; private set; }
         public int Level;
         public bool Alive;
         public Guid Id;
@@ -11,7 +11,8 @@
         public int X => Position.X;
         public int Y => Position.Y;
         public virtual int Range { get; set; }
-        
+        private HashSet<string> _factions;
+
         public Character()
         {
             Health = MaxHealth;
@@ -19,8 +20,14 @@
             Alive = true;
             Id = Guid.NewGuid();
             Position = new(0, 0);
-            Factions = new();
+            _factions = new();
         }
+
+        public HashSet<string> Factions()
+        {
+            return _factions;
+        }
+
 
         public static Character Create()
         {
@@ -37,6 +44,16 @@
             }
 
             Health -= damage;
+        }
+
+        public void Join(string faction)
+        {
+            _factions.Add(faction);
+        }
+
+        public void Leave(string faction)
+        {
+            _factions.Remove(faction);
         }
 
         public void ReceiveHeal(decimal heal)

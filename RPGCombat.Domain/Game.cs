@@ -1,4 +1,7 @@
-﻿namespace RPGCombat.Domain
+﻿using RPGCombat.Domain.Characters;
+using RPGCombat.Domain.Things;
+
+namespace RPGCombat.Domain
 {
     public class Game
     {
@@ -7,6 +10,14 @@
             if (attacker.Id != target.Id && InRange(attacker, target) && !AreAllies(attacker, target))
             {
                 target.ReceiveDamage(CalculateDamage(attacker, damage, target));
+            }
+        }
+
+        public static void Attack(Character attacker, decimal damage, Thing target)
+        {
+            if (InRange(attacker, target))
+            {
+                target.ReceiveDamage(damage);
             }
         }
 
@@ -23,12 +34,12 @@
             healer.ReceiveHeal(heal);
         }
 
-        private static bool AreAllies(Character attacker, Character target)
+        private static bool AreAllies(IEnrollable attacker, IEnrollable target)
         {
-            return attacker.Factions.Intersect(target.Factions).Any();
+            return attacker.Factions().Intersect(target.Factions()).Any();
         }
 
-        private static bool InRange(Character attacker, Character target)
+        private static bool InRange(Character attacker, IMovable target)
         {
             return Math.Sqrt(Math.Pow(attacker.X - target.X, 2) + Math.Pow(attacker.Y - target.Y, 2)) <=
                    attacker.Range;
