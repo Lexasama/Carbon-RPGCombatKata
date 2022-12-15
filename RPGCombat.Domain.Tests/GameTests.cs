@@ -17,7 +17,7 @@ namespace RPGCombat.Domain.Tests
 
 
             Assert.Equal(StartingHealth - damage, target.Health);
-            Assert.True(attacker.Alive);
+            Assert.True(attacker.Alive());
         }
 
         [Fact]
@@ -30,7 +30,7 @@ namespace RPGCombat.Domain.Tests
             Game.Attack(attacker, damage, attacker);
 
             Assert.Equal(StartingHealth, attacker.Health);
-            Assert.True(attacker.Alive);
+            Assert.True(attacker.Alive());
         }
 
         [Fact]
@@ -44,7 +44,7 @@ namespace RPGCombat.Domain.Tests
             Game.Attack(attacker, damage, target);
 
             Assert.Equal(StartingHealth - damage * 1.5m, target.Health);
-            Assert.True(target.Alive);
+            Assert.True(target.Alive());
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace RPGCombat.Domain.Tests
             Game.Attack(attacker, damage, target);
 
             Assert.Equal(StartingHealth - damage * 0.5m, target.Health);
-            Assert.True(target.Alive);
+            Assert.True(target.Alive());
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace RPGCombat.Domain.Tests
             Game.Attack(attacker, damage, target);
 
             Assert.Equal(StartingHealth, target.Health);
-            Assert.True(target.Alive);
+            Assert.True(target.Alive());
         }
 
         [Fact]
@@ -88,7 +88,7 @@ namespace RPGCombat.Domain.Tests
             Game.Attack(attacker, damage, target);
 
             Assert.Equal(StartingHealth, target.Health);
-            Assert.True(target.Alive);
+            Assert.True(target.Alive());
         }
 
         [Fact]

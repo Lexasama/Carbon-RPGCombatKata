@@ -14,7 +14,7 @@ public class CharacterTests
 
         Assert.Equal(StartingHealth, sut.Health);
         Assert.Equal(StartingLevel, sut.Level);
-        Assert.True(sut.Alive);
+        Assert.True(sut.Alive());
     }
 
 
@@ -27,7 +27,7 @@ public class CharacterTests
         Game.Attack(attacker, StartingHealth, target);
 
         Assert.Equal(0, target.Health);
-        Assert.False(target.Alive);
+        Assert.False(target.Alive());
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public class CharacterTests
         wounded.ReceiveHeal(heal);
 
         Assert.Equal(StartingHealth, wounded.Health);
-        Assert.True(wounded.Alive);
+        Assert.True(wounded.Alive());
     }
 
 
@@ -56,7 +56,7 @@ public class CharacterTests
         wounded.ReceiveHeal(heal);
 
         Assert.Equal(0, wounded.Health);
-        Assert.False(wounded.Alive);
+        Assert.False(wounded.Alive());
     }
 
     [Fact]
@@ -70,6 +70,6 @@ public class CharacterTests
         wounded.ReceiveHeal(heal);
 
         Assert.Equal(StartingHealth, wounded.Health);
-        Assert.True(wounded.Alive);
+        Assert.True(wounded.Alive());
     }
 }

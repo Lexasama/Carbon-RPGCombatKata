@@ -1,13 +1,13 @@
 ﻿namespace RPGCombat.Domain.Things
 {
-    public abstract class Thing : IDamagable, IMovable
+    public abstract class Thing
     {
         public decimal Health { get; protected set; }
         public bool Alive;
 
-        public Position Position { get; set; }
         public int X => Position.X;
         public int Y => Position.Y;
+        public Position Position { get; set; }
 
         public void ReceiveDamage(decimal damage)
         {

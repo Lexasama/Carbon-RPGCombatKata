@@ -1,33 +1,33 @@
 ﻿namespace RPGCombat.Domain.Characters
 {
-    public class Character : IDamagable, IHealable, IEnrollable, IMovable
+    public class Character
     {
         private const decimal MaxHealth = 1000m;
         public decimal Health { get; private set; }
         public int Level;
-        public bool Alive;
+        private bool _alive;
         public Guid Id;
-        public Position Position { get; set; }
         public int X => Position.X;
         public int Y => Position.Y;
-        public virtual int Range { get; set; }
-        private HashSet<string> _factions;
+        public int Range { get; protected init; }
+        private readonly Factions _factions;
 
-        public Character()
+        public Position Position { get; set; }
+
+        protected Character()
         {
             Health = MaxHealth;
             Level = 1;
-            Alive = true;
+            _alive = true;
             Id = Guid.NewGuid();
-            Position = new(0, 0);
+            Position = new Position(0, 0);
             _factions = new();
         }
 
-        public HashSet<string> Factions()
+        public bool Alive()
         {
-            return _factions;
+            return Health > 0;
         }
-
 
         public static Character Create()
         {
@@ -36,29 +36,28 @@
 
         public void ReceiveDamage(decimal damage)
         {
-            if (damage >= Health)
+            Health -= damage;
+
+            if (Health <= 0)
             {
                 Health = 0m;
-                Alive = false;
-                return;
+                _alive = false;
             }
-
-            Health -= damage;
         }
 
         public void Join(string faction)
         {
-            _factions.Add(faction);
+            _factions.Join(faction);
         }
 
         public void Leave(string faction)
         {
-            _factions.Remove(faction);
+            _factions.Leave(faction);
         }
 
         public void ReceiveHeal(decimal heal)
         {
-            if (!Alive)
+            if (!_alive)
             {
                 return;
             }
@@ -68,6 +67,11 @@
             {
                 Health = MaxHealth;
             }
+        }
+
+        public HashSet<string> Factions()
+        {
+            return _factions.GetFactions();
         }
     }
 }

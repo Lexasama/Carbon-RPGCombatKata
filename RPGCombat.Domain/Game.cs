@@ -7,7 +7,7 @@ namespace RPGCombat.Domain
     {
         public static void Attack(Character attacker, decimal damage, Character target)
         {
-            if (attacker.Id != target.Id && InRange(attacker, target) && !AreAllies(attacker, target))
+            if (attacker.Id != target.Id && InRange(attacker.Position, target.Position, attacker.Range) && !AreAllies(attacker, target))
             {
                 target.ReceiveDamage(CalculateDamage(attacker, damage, target));
             }
@@ -15,7 +15,7 @@ namespace RPGCombat.Domain
 
         public static void Attack(Character attacker, decimal damage, Thing target)
         {
-            if (InRange(attacker, target))
+            if (InRange(attacker.Position, target.Position, attacker.Range))
             {
                 target.ReceiveDamage(damage);
             }
@@ -23,7 +23,7 @@ namespace RPGCombat.Domain
 
         public static void Heal(Character healer, decimal heal, Character wounded)
         {
-            if (AreAllies(healer, wounded))
+            if (AreAllies(healer, wounded) & wounded.Alive())
             {
                 wounded.ReceiveHeal(heal);
             }
@@ -34,15 +34,15 @@ namespace RPGCombat.Domain
             healer.ReceiveHeal(heal);
         }
 
-        private static bool AreAllies(IEnrollable attacker, IEnrollable target)
+        private static bool AreAllies(Character attacker, Character target)
         {
             return attacker.Factions().Intersect(target.Factions()).Any();
         }
-
-        private static bool InRange(Character attacker, IMovable target)
+        
+        private static bool InRange(Position attacker, Position target, int range)
         {
             return Math.Sqrt(Math.Pow(attacker.X - target.X, 2) + Math.Pow(attacker.Y - target.Y, 2)) <=
-                   attacker.Range;
+                   range;
         }
 
         private static decimal CalculateDamage(Character attacker, decimal damage, Character target)
