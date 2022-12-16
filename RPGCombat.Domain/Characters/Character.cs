@@ -7,10 +7,7 @@
         public int Level;
         private bool _alive;
         public Guid Id;
-        public int X => Position.X;
-        public int Y => Position.Y;
         public int Range { get; protected init; }
-        private readonly Factions _factions;
 
         public Position Position { get; set; }
 
@@ -21,7 +18,6 @@
             _alive = true;
             Id = Guid.NewGuid();
             Position = new Position(0, 0);
-            _factions = new();
         }
 
         public bool Alive()
@@ -45,15 +41,6 @@
             }
         }
 
-        public void Join(string faction)
-        {
-            _factions.Join(faction);
-        }
-
-        public void Leave(string faction)
-        {
-            _factions.Leave(faction);
-        }
 
         public void ReceiveHeal(decimal heal)
         {
@@ -67,11 +54,6 @@
             {
                 Health = MaxHealth;
             }
-        }
-
-        public HashSet<string> Factions()
-        {
-            return _factions.GetFactions();
         }
     }
 }

@@ -1,3 +1,4 @@
+using RPGCombat.Domain.Actions;
 using RPGCombat.Domain.Characters;
 
 namespace RPGCombat.Domain.Tests;
@@ -23,9 +24,10 @@ public class CharacterTests
     {
         var attacker = Character.Create();
         var target = Character.Create();
-        var game = new Game();
-        Game.Attack(attacker, StartingHealth, target);
+        var rules = new ActionRules(new List<Faction> { new() });
+        var attack = new Attack(attacker, StartingHealth, rules);
 
+        attack.On(target);
         Assert.Equal(0, target.Health);
         Assert.False(target.Alive());
     }
@@ -35,10 +37,13 @@ public class CharacterTests
     {
         var healer = Character.Create();
         var wounded = Character.Create();
-        var heal = 100m;
-        Game.Attack(healer, heal, wounded);
+        const decimal healValue = 100m;
+        var rules = new ActionRules(new List<Faction> { new() });
+        var attack = new Attack(healer, healValue, rules);
 
-        wounded.ReceiveHeal(heal);
+        attack.On(wounded);
+
+        wounded.ReceiveHeal(healValue);
 
         Assert.Equal(StartingHealth, wounded.Health);
         Assert.True(wounded.Alive());
@@ -50,9 +55,11 @@ public class CharacterTests
     {
         var healer = Character.Create();
         var wounded = Character.Create();
-        var heal = 100m;
-        Game.Attack(healer, StartingHealth, wounded);
+        const decimal heal = 100m;
+        var rules = new ActionRules(new List<Faction> { new() });
+        var attack = new Attack(healer, StartingHealth, rules);
 
+        attack.On(wounded);
         wounded.ReceiveHeal(heal);
 
         Assert.Equal(0, wounded.Health);
@@ -64,8 +71,10 @@ public class CharacterTests
     {
         var healer = Character.Create();
         var wounded = Character.Create();
-        var heal = 200m;
-        Game.Attack(healer, heal, wounded);
+        const decimal heal = 200m;
+        var rules = new ActionRules(new List<Faction> { new() });
+        var attack = new Attack(healer, 100m, rules);
+        attack.On(wounded);
 
         wounded.ReceiveHeal(heal);
 

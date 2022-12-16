@@ -4,9 +4,6 @@
     {
         public decimal Health { get; protected set; }
         public bool Alive;
-
-        public int X => Position.X;
-        public int Y => Position.Y;
         public Position Position { get; set; }
 
         public void ReceiveDamage(decimal damage)
